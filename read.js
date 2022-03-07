@@ -11,12 +11,14 @@ mClient.connect(url, (err, client) => {
   if (err) console.log(err);
   const db = client.db(dbname);
   console.log("connected");
-  const michael = { name: "Micahel", age: 15, gender: "M" };
-  db.collection("student").insertOne(michael, (err, result) => {
-    if (err) console.log("Unable to insert student", err);
-    console.log(result);
 
-    // client.close는 항상 collection 안에 있어야 합니다
-    client.close();
+  const cursor = db.collection("student").find();
+  cursor.forEach((err, doc) => {
+    if (err) console.log(err);
+
+    if (doc != null) {
+      console.log(doc);
+      client.close();
+    }
   });
 });
